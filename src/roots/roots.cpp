@@ -81,10 +81,18 @@ bool newton_raphson(std::function<double(double)> f, std::function<double(double
 
 bool secant(std::function<double(double)> f, double a, double b, double c, double *root) 
 {
-     
+    double a_0 = a;
+    double b_0 = b;
+    
     // Calculates a secant line that gets closer and closer to the root
     while(std::abs(f(c)) >= 1e-6) 
     {
+        //Check if iteration leaves original interval
+        if (c< a_0 || c > b_0)
+        {
+            return false;
+        }
+
         c = a - ((b - a) / (f(b) - f(a))) * f(a);
         a = b;
         b = c;
